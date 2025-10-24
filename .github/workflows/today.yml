@@ -1,0 +1,17 @@
+name: Ejecutar tarea diaria
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # 12am Colombia (UTC-5)
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Ejecutar script
+        run: |
+          pip install requests
+          python today_request.py
