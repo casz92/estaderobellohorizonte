@@ -7,6 +7,12 @@ function getDayName(date) {
   return days[date.getDay()];
 }
 
+const BASE_TIME = (5 * 60 * 60 * 1000); // UTC-5
+function getColombiaDate(baseDate = new Date()) {
+  const colombiaMs = baseDate.getTime() - BASE_TIME; // UTC-5
+  return new Date(colombiaMs);
+}
+
 function formatDateBlock(date) {
   const dayName = getDayName(date).toUpperCase();
   const day = String(date.getDate()).padStart(2, '0');
@@ -20,13 +26,13 @@ function getTimestampMs(date) {
 }
 
 export async function generatePrompt() {
-  const hoy = new Date();
+  const hoy = getColombiaDate();
   hoy.setHours(0, 0, 0, 0);
 
   const rooms = await getAllRooms();
   const bloques = [];
 
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 30; i++) {
     const checkIn = new Date(hoy);
     checkIn.setDate(hoy.getDate() + i);
     checkIn.setHours(0, 0, 0, 0);
